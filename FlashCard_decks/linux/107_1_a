@@ -1,0 +1,1 @@
+echo "some text" | mail -s "subject" user@doamin.com

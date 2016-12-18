@@ -1,0 +1,3 @@
+netstat -an | grep 22 |awk {'print $4'} | awk -F":" {'print $1'}
+
+Use netstat to get the connections, use awk to get the column of IPs, then use awk again changint the file delimiter to : to seperate the IP address from the port number
