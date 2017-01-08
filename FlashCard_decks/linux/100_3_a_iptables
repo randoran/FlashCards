@@ -1,0 +1,1 @@
+iptables -A INPUT -s 10.2.2.1 --dport 22 -j DROP
