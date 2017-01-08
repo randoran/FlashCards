@@ -1,7 +1,7 @@
 #!/bin/bash
 # flash card questions and answers
 
-include flash.conf;
+source flash.conf;
 
 ####################### FUNCTIONS SECTION #####################
 
@@ -9,15 +9,15 @@ include flash.conf;
 ###############################################################
 
 funcGetDeck () {
-  DECKS=(`ls -l /usr/local/bin/FlashCard_decks/|grep ^d|awk '{print $9}'`)
+  DECKS=(`ls -l $INSTALL_PATH/FlashCard_decks/|grep ^d|awk '{print $9}'`)
   NUMDECKS=${#DECKS[@]}
   dialog --title "FLASHCARDS" \
          --radiolist "`echo '\n'`Choose a flashcard deck:" 15 30 $NUMDECKS \
 	"${DECKS[0]}" "" OFF \
         "${DECKS[1]}" "" OFF \
         "${DECKS[2]}" "" OFF \
-        2>/usr/local/bin/FlashCard_decks/deck
-  DECK=`cat /usr/local/bin/FlashCard_decks/deck`
+        2>$INSTALL_PATH/FlashCard_decks/deck
+  DECK=`cat $INSTALL_PATH/FlashCard_decks/deck`
 
  if [ -z $DECK ];then
  EXIT=1
@@ -30,16 +30,16 @@ funcGetDeck () {
 
 funcGetQuestion () {  # Get the number of questions in the folder
  a=100
- while [ -e /usr/local/bin/FlashCard_decks/$DECK/"$a"_0_q[a-zA-Z0-9]*$ ];do 
+ while [ -e $INSTALL_PATH/FlashCard_decks/$DECK/"$a"_0_q[a-zA-Z0-9]*$ ];do 
  let a+=1
  done
  let a-=1
  
  CAT_NUM=`shuf -i 100-$a -n 1` # finds random category
- CAT_NAME='ls /usr/local/bin/FlashCard_decks/$DECK/"$CAT_NUM"_"$b"_a*'
+ CAT_NAME='ls $INSTALL_PATH/FlashCard_decks/$DECK/"$CAT_NUM"_"$b"_a*'
 
  b=0;
- while [ -e /usr/local/bin/FlashCard_decks/$DECK/"$CAT_NUM"_"$b"_a* ];do 
+ while [ -e $INSTALL_PATH/FlashCard_decks/$DECK/"$CAT_NUM"_"$b"_a* ];do 
    let b+=1;
  done
  if [ ! $b -eq 0 ]; then
@@ -60,8 +60,8 @@ funcGetQuestion () {  # Get the number of questions in the folder
 funcPresentQuestion () {
  dialog --title "[ `echo $DECK` QUESTION ]" --no-cancel \
         --ok-label "See the answer" \
-        --inputbox "`echo '';cat /usr/local/bin/FlashCard_decks/$DECK/$1`" \
-        15 60 2>/usr/local/bin/FlashCard_decks/response
+        --inputbox "`echo '';cat $INSTALL_PATH/FlashCard_decks/$DECK/$1`" \
+        15 60 2>$INSTALL_PATH/FlashCard_decks/response
 
  EXIT=0
  # Get exit status
@@ -72,7 +72,7 @@ funcPresentQuestion () {
  dialog --title "[ ANSWER ]" \
         --yes-button "Next Question" \
         --no-button "EXIT" \
-        --yesno "`echo 'Your response\n';``cat /usr/local/bin/FlashCard_decks/response;``echo '\n\nAnswer\n';``cat /usr/local/bin/FlashCard_decks/$DECK/$2;`" \
+        --yesno "`echo 'Your response\n';``cat $INSTALL_PATH/FlashCard_decks/response;``echo '\n\nAnswer\n';``cat $INSTALL_PATH/FlashCard_decks/$DECK/$2;`" \
         15 60
 }
 
