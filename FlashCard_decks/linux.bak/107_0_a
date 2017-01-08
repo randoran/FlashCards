@@ -1,0 +1,1 @@
+mailx -s "subject" user@domain.com < file.text

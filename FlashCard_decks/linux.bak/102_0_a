@@ -1,0 +1,1 @@
+ps aux | grep randy | awk {'print $2, $11'}

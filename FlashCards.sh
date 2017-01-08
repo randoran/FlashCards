@@ -1,6 +1,8 @@
 #!/bin/bash
 # flash card questions and answers
 
+include flash.conf;
+
 ####################### FUNCTIONS SECTION #####################
 
 
@@ -26,17 +28,18 @@ funcGetDeck () {
 
 ###############################################################
 
-funcGetQuestion () {
+funcGetQuestion () {  # Get the number of questions in the folder
  a=100
- while [ -e /usr/local/bin/FlashCard_decks/$DECK/"$a"_0_q ];do 
+ while [ -e /usr/local/bin/FlashCard_decks/$DECK/"$a"_0_q[a-zA-Z0-9]*$ ];do 
  let a+=1
  done
  let a-=1
  
- CATEGORY=`shuf -i 100-$a -n 1`
+ CAT_NUM=`shuf -i 100-$a -n 1` # finds random category
+ CAT_NAME='ls /usr/local/bin/FlashCard_decks/$DECK/"$CAT_NUM"_"$b"_a*'
 
  b=0;
- while [ -e /usr/local/bin/FlashCard_decks/$DECK/"$CATEGORY"_"$b"_a ];do 
+ while [ -e /usr/local/bin/FlashCard_decks/$DECK/"$CAT_NUM"_"$b"_a* ];do 
    let b+=1;
  done
  if [ ! $b -eq 0 ]; then
@@ -45,8 +48,9 @@ funcGetQuestion () {
 
  COUNT=`shuf -i 0-$b -n 1`
 
- QUESTION="$CATEGORY"_"$COUNT"_q
- ANSWER="$CATEGORY"_"$COUNT"_a
+ QUEST_NUM="$CAT_NUM"_"$COUNT"
+ QUESTION="$QUEST_NUM"_q_"$CAT_NAME";
+ ANSWER="$CAT_NUM"_"$COUNT"_a
 }
 
 ###############################################################
