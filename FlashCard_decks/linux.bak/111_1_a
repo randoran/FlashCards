@@ -1,1 +1,0 @@
-dialog --title "This is a Title" --yesno "are you ready to quit?" 15 30

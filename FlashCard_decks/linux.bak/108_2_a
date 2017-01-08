@@ -1,2 +1,0 @@
-/path/to/dir/to/export ip-address_or_ip_blocks_to_allow perms
-/path/to/dir 10.0.0.0/16 (r,w)

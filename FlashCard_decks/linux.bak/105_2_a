@@ -1,1 +1,0 @@
-find /home/username -size +30G -print -exec tar -czf {} \;

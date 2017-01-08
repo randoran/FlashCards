@@ -1,1 +1,0 @@
-find . -name '*aa' -exec bash -c 'mv $0 ${0/aa/a}' {} \;
